@@ -4,63 +4,82 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
+		<link href='https://fonts.googleapis.com/css?family=League+Script' rel='stylesheet' type='text/css'>
+
+		<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Bad+Script|Gruppo|Kumar+One+Outline|League+Script|Londrina+Outline|Monoton|Sriracha|Yellowtail&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789?+'>
 
 	</head>
 	<style type="text/css">
+		x-sign {
+			--interval: 1s;
+			display: block;
+			text-shadow: 0 0 10px var(--color1), 0 0 20px var(--color2), 0 0 40px var(--color3), 0 0 80px var(--color4);
+			will-change: filter, color;
+			filter: saturate(60%);
+			animation: flicker steps(100) var(--interval) 1s infinite;
+			position: relative;
+			float: left;			
+			left: 37%;
+			
+		}
+		
+		x-sign:nth-of-type(1) {
+			color: lightyellow;
+			--color1: yellow;
+			--color2: gold;
+			--color3: orange;
+			--color4: darkred;
+			font-family: Yellowtail;
+			font-size: 600%;
+			margin-top: 350px;
+		}
+		
+		@-webkit-keyframes flicker {
+			50% {
+				color: white;
+				filter: saturate(200%) hue-rotate(20deg);
+			}
+		}
+		
 		html {
 			height: 100%;
 		}
 		
 		body {
-			padding: 0;
-			margin: 0;
-			background: url("img/bg.jpg") no-repeat;
-			background-size: 100% 100%;
-			position: absolute;
-		}
-		
-		#div1,
-		#div2 {
-			float: left;
-			width: 480px;
-			height: 720px;
-			margin: 10px;
-			padding: 10px;
-			border: 1px solid #aaaaaa;
+			background: url("img/bg.jpg") repeat-y center center;
+			background-size: cover;
+			background-attachment: fixed;
+			background-color: #090000;
 		}
 	</style>
 	<script type="text/javascript">
-		function allowDrag(ev) {
-			ev.preventDefault();
+		const signs = document.querySelectorAll('x-sign')
+		const randomIn = (min, max) => (
+			Math.floor(Math.random() * (max - min + 1) + min)
+		)
+
+		const mixupInterval = el => {
+			const ms = randomIn(2000, 4000)
+			el.style.setProperty('--interval', `${ms}ms`)
 		}
 
-		function drag(ev) {
-			ev.dataTransfer.setData("Text", ev.target.id);
-		}
-
-		function drop(ev) {
-			ev.preventDefault();
-			var data = ev.dataTransfer.getData("Text");
-			ev.target.appendChild(document.getElementById(data))
-		}
+		signs.forEach(el => {
+			mixupInterval(el)
+			el.addEventListener('webkitAnimationIteration', () => {
+				mixupInterval(el)
+			})
+		})
 	</script>
-		
-	<body >
-		<h1 align="center">
-				<font color=aquamarine>奥德李之域</font>
-			</h1>
-		<div align="center">
-			<audio src="audio/lufei.mp3" type="audio/mpeg" autoplay="autoplay" loop="loop"></audio>
-		</div>	
 
-		<!--	<div align="center" id="div3">
-		<div id="div1" ondrop="drop(event)" ondragover="allowDrag(event)">
-			<img src="img/bf.jpg" draggable="true" ondragstart="drag(event)" id="drag1"/>
+	<body>
+
+		<x-sign id="x1">
+			Realm Of Lee
+		</x-sign>
+		<div id="div3" align="center">
+			<audio src="audio/lufei.mp3" type="audio/mpeg" autoplay="autoplay" loop="loop"></audio>
 		</div>
-		<div id="div2" ondrop="drop(event)" ondragover="allowDrag(event)">
-			
-		</div>
-	</div>-->
+
 	</body>
 
 </html>
